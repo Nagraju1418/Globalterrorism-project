@@ -1,0 +1,39 @@
+
+hive> create database global;
+OK
+Time taken: 0.83 seconds
+hive> show databases;
+OK
+default
+global
+naveeeeveenla
+Time taken: 0.041 seconds, Fetched: 3 row(s)
+hive> use global;
+OK
+Time taken: 0.035 seconds
+hive> create table terrorism (eventid BIGINT,iyear INT,iday INT,country_txt STRING,region_txt STRING,nkill INT,nwound INT)
+    > ROW FORMAT DELIMITED
+    > FIELDS TERMINATED BY ','
+    > STORED AS TEXTFILE;
+OK
+Time taken: 0.615 seconds
+hive> LOAD DATA INPATH '/capstone/part-m-00000' into terrorism;
+FAILED: ParseException line 1:47 missing TABLE at 'terrorism' near '<EOF>'
+hive> LOAD DATA INPATH '/capstone/part-m-00000' into table terrorism;
+Loading data to table global.terrorism
+OK
+Time taken: 1.179 seconds
+hive> select * from terrorism limit 10;
+OK
+2147483647      1970    7       2       Dominican Republic      NULL    NULL
+2147483647      1970    0       0       Mexico  NULL    NULL
+2147483647      1970    1       0       Philippines     NULL    NULL
+2147483647      1970    1       0       Greece  NULL    NULL
+2147483647      1970    1       0       Japan   NULL    NULL
+2147483647      1970    1       1       United States   NULL    NULL
+2147483647      1970    1       2       Uruguay NULL    NULL
+2147483647      1970    1       2       United States   NULL    NULL
+2147483647      1970    1       2       United States   NULL    NULL
+2147483647      1970    8       3       United States   NULL    NULL
+Time taken: 3.834 seconds, Fetched: 10 row(s)
+hive>
