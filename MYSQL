@@ -1,0 +1,66 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| global             |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use global;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++------------------+
+| Tables_in_global |
++------------------+
+| globalterrorism  |
++------------------+
+1 row in set (0.00 sec)
+mysql> describe globalterrorism;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| eventid     | int         | YES  |     | NULL    |       |
+| iyear       | int         | YES  |     | NULL    |       |
+| imonth      | int         | YES  |     | NULL    |       |
+| iday        | int         | YES  |     | NULL    |       |
+| country_txt | varchar(40) | YES  |     | NULL    |       |
+| region_txt  | varchar(40) | YES  |     | NULL    |       |
+| target1     | varchar(30) | YES  |     | NULL    |       |
+| nkill       | int         | YES  |     | NULL    |       |
+| nwound      | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+9 rows in set (0.04 sec)
+mysql> Alter table globalterrorism modify column eventid int;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> LOAD DATA LOCAL INFILE '/mnt/c/Users/91703/Downloads/Modified_global.csv'
+O TABLE globalterro    -> INTO TABLE globalterrorism
+    -> FIELDS TERMINATED BY ','
+    -> LINES TERMINATED BY '\n'
+    -> IGNORE 1 LINES;
+Query OK, 2276 rows affected, 7385 warnings (0.10 sec)
+Records: 2276  Deleted: 0  Skipped: 0  Warnings: 7385
+
+mysql> select * from globalterrorism limit 5;
++------------+-------+--------+------+--------------------+-----------------------------+--------------------------------+-------+--------+
+| eventid    | iyear | imonth | iday | country_txt        | region_txt                  | target1
+ | nkill | nwound |
++------------+-------+--------+------+--------------------+-----------------------------+--------------------------------+-------+--------+
+| 2147483647 |  1970 |      7 |    2 | Dominican Republic | Central America & Caribbean | Assassination
+ |     0 |      1 |
+| 2147483647 |  1970 |      0 |    0 | Mexico             | North America               | Hostage Taking (Kidnapping)    |     0 |      0 |
+| 2147483647 |  1970 |      1 |    0 | Philippines        | Southeast Asia              | Assassination
+ |     0 |      1 |
+| 2147483647 |  1970 |      1 |    0 | Greece             | Western Europe              | Bombing/Explosion
+ |     0 |      0 |
+mysql> S3647 |  1970 |      1 |    0 | Japan              | East Asia                   | Facility/Infrastructure Attack |     0 |      0 |
++------------+-------+--------+------+--------------------+-----------------------------+--------------------------------+-------+--------+
+5 rows in set (0.01 sec)
