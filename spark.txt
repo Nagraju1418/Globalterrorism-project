@@ -1,0 +1,147 @@
+scala> val a = spark.sql("show databases")
+a: org.apache.spark.sql.DataFrame = [namespace: string]
+
+scala> a.show()
++-------------+
+|    namespace|
++-------------+
+|      default|
+|       global|
+|naveeeeveenla|
++-------------+
+
+
+scala> var b = spark.sql("show tables in global");
+b: org.apache.spark.sql.DataFrame = [namespace: string, tableName: string ... 1 more field]
+
+scala> b.show()
++---------+---------+-----------+
+|namespace|tableName|isTemporary|
++---------+---------+-----------+
+|   global|terrorism|      false|
++---------+---------+-----------+
+
+
+scala> var c = spark.sql("select * from global.terrorism limit 10")
+c: org.apache.spark.sql.DataFrame = [eventid: bigint, iyear: int ... 5 more fields]
+
+scala> c.show()
+23/09/25 10:56:09 WARN LazyStruct: Extra bytes detected at the end of the row! Ignoring similar problems.
++----------+-----+----+-----------+------------------+-----+------+
+|   eventid|iyear|iday|country_txt|        region_txt|nkill|nwound|
++----------+-----+----+-----------+------------------+-----+------+
+|2147483647| 1970|   7|          2|Dominican Republic| null|  null|
+|2147483647| 1970|   0|          0|            Mexico| null|  null|
+|2147483647| 1970|   1|          0|       Philippines| null|  null|
+|2147483647| 1970|   1|          0|            Greece| null|  null|
+|2147483647| 1970|   1|          0|             Japan| null|  null|
+|2147483647| 1970|   1|          1|     United States| null|  null|
+|2147483647| 1970|   1|          2|           Uruguay| null|  null|
+|2147483647| 1970|   1|          2|     United States| null|  null|
+|2147483647| 1970|   1|          2|     United States| null|  null|
+|2147483647| 1970|   8|          3|     United States| null|  null|
++----------+-----+----+-----------+------------------+-----+------+
+
+
+scala> var d = spark.sql("describe global.terrorism")
+d: org.apache.spark.sql.DataFrame = [col_name: string, data_type: string ... 1 more field]
+
+scala> d.show()
++-----------+---------+-------+
+|   col_name|data_type|comment|
++-----------+---------+-------+
+|    eventid|   bigint|   null|
+|      iyear|      int|   null|
+|       iday|      int|   null|
+|country_txt|   string|   null|
+| region_txt|   string|   null|
+|      nkill|      int|   null|
+|     nwound|      int|   null|
++-----------+---------+-------+
+
+scala> val a = spark.sql("select * from global.terrorism")
+a: org.apache.spark.sql.DataFrame = [eventid: bigint, iyear: int ... 5 more fields]
+
+scala> val a = spark.sql("select * from global.terrorism");
+a: org.apache.spark.sql.DataFrame = [eventid: bigint, iyear: int ... 5 more fields]
+
+scala> var b = spark.sql("select * from global.terrorism")
+b: org.apache.spark.sql.DataFrame = [eventid: bigint, iyear: int ... 5 more fields]
+
+scala> b.show()
+23/09/25 11:47:34 WARN LazyStruct: Extra bytes detected at the end of the row! Ignoring similar problems.
++----------+-----+----+-----------+------------------+-----+------+
+|   eventid|iyear|iday|country_txt|        region_txt|nkill|nwound|
++----------+-----+----+-----------+------------------+-----+------+
+|2147483647| 1970|   7|          2|Dominican Republic| null|  null|
+|2147483647| 1970|   0|          0|            Mexico| null|  null|
+|2147483647| 1970|   1|          0|       Philippines| null|  null|
+|2147483647| 1970|   1|          0|            Greece| null|  null|
+|2147483647| 1970|   1|          0|             Japan| null|  null|
+|2147483647| 1970|   1|          1|     United States| null|  null|
+|2147483647| 1970|   1|          2|           Uruguay| null|  null|
+|2147483647| 1970|   1|          2|     United States| null|  null|
+|2147483647| 1970|   1|          2|     United States| null|  null|
+|2147483647| 1970|   8|          3|     United States| null|  null|
+|2147483647| 1970|   1|          1|     United States| null|  null|
+|2147483647| 1970|   1|          6|     United States| null|  null|
+|2147483647| 1970|   1|          8|             Italy| null|  null|
+|2147483647| 1970|  12|          9|     United States| null|  null|
+|2147483647| 1970|   1|          9|     United States| null|  null|
+|2147483647| 1970|   5|         10|East Germany (GDR)| null|  null|
+|2147483647| 1970|   5|         11|          Ethiopia| null|  null|
+|2147483647| 1970|   5|         12|     United States| null|  null|
+|2147483647| 1970|   5|         12|     United States| null|  null|
+|2147483647| 1970|   5|         13|     United States| null|  null|
++----------+-----+----+-----------+------------------+-----+------+
+only showing top 20 rows
+
+
+scala> var cnt = b.count()
+cnt: Long = 2276
+
+scala> cnt.show()
+<console>:24: error: value show is not a member of Long
+       cnt.show()
+           ^
+
+scala> print(cnt)
+2276
+scala> bye
+<console>:23: error: not found: value bye
+       bye
+       ^
+
+scala> println(s"Count: $cnt")
+Count: 2276
+
+scala> var a = b.dropDuplicates()
+a: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] = [eventid: bigint, iyear: int ... 5 more fields]
+
+scala> var numRows = a.count()
+23/09/25 11:53:45 WARN LazyStruct: Extra bytes detected at the end of the row! Ignoring similar problems.
+numRows: Long = 1613
+
+scala> var numCols = a.columns.length
+numCols: Int = 7
+
+scala> import org.apache.spark.sql.functions._
+import org.apache.spark.sql.functions._
+
+scala> val nullCounts = a.select(a.columns.map(c => sum(col(c).isNull.cast("int")).alias(c)): _*)
+nullCounts: org.apache.spark.sql.DataFrame = [eventid: bigint, iyear: bigint ... 5 more fields]
+
+scala> nullcounts.show()
+<console>:26: error: not found: value nullcounts
+       nullcounts.show()
+       ^
+
+scala> nullCounts.show()
+23/09/25 11:59:50 WARN LazyStruct: Extra bytes detected at the end of the row! Ignoring similar problems.
++-------+-----+----+-----------+----------+-----+------+
+|eventid|iyear|iday|country_txt|region_txt|nkill|nwound|
++-------+-----+----+-----------+----------+-----+------+
+|      0|    0|   0|          0|         0| 1613|  1613|
++-------+-----+----+-----------+----------+-----+------+
+
+
