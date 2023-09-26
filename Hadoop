@@ -1,4 +1,18 @@
+naveen@LAPTOP-QSUG0G63:~$ sudo su - hadoop
+[sudo] password for naveen:
+Welcome to Ubuntu 22.04.2 LTS (GNU/Linux 5.15.90.1-microsoft-standard-WSL2 x86_64)
 
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+This message is shown once a day. To disable it please create the
+/home/hadoop/.hushlogin file.
 hadoop@LAPTOP-QSUG0G63:~$ start-all.sh
 WARNING: Attempting to start all Apache Hadoop daemons as hadoop in 10 seconds.
 WARNING: This is not a recommended production deployment configuration.
@@ -8,22 +22,14 @@ Starting datanodes
 Starting secondary namenodes [LAPTOP-QSUG0G63]
 Starting resourcemanager
 Starting nodemanagers
-hadoop@LAPTOP-QSUG0G63:~$ hadoop fs -mkdir /capstone
-hadoop@LAPTOP-QSUG0G63:~$ hadoop fs -ls /
-Found 3 items
-drwxr-xr-x   - hadoop supergroup          0 2023-09-24 23:31 /capstone
-drwxrwxr-x   - hadoop supergroup          0 2023-09-23 17:16 /tmp
-drwxr-xr-x   - hadoop supergroup          0 2023-09-23 17:06 /user
+hadoop@LAPTOP-QSUG0G63:~$ hadoop fs -mkdir /capstone1
 hadoop@LAPTOP-QSUG0G63:~$ hadoop fs -ls /
 Found 4 items
-drwxr-xr-x   - hadoop supergroup          0 2023-09-24 23:31 /capstone
-drwxr-xr-x   - hadoop supergroup          0 2023-09-24 23:54 /capstone1
-drwxrwxr-x   - hadoop supergroup          0 2023-09-23 17:16 /tmp
+drwxr-xr-x   - hadoop supergroup          0 2023-09-25 01:23 /capstonedrwxr-xr-x   - hadoop supergroup          0 2023-09-26 17:14 /capstone1
+drwxrwxr-x   - hadoop supergroup          0 2023-09-25 00:02 /tmp
 drwxr-xr-x   - hadoop supergroup          0 2023-09-23 17:06 /user
-hadoop@LAPTOP-QSUG0G63:~$ hadoop fs -rm -r /ca*
-Deleted /capstone
-Deleted /capstone1
-hadoop@LAPTOP-QSUG0G63:~$ sqoop import --connect jdbc:mysql://localhost/global --username root -P --table globalterrorism --target-dir /capstone -m 1
+
+hadoop@LAPTOP-QSUG0G63:~$ sqoop import --connect jdbc:mysql://localhost/global --username root -P --table terrorism1 --target-dir /capstone1 -m 1
 Warning: /home/hadoop/sqoop/../hbase does not exist! HBase imports will fail.
 Please set $HBASE_HOME to the root of your HBase installation.
 Warning: /home/hadoop/sqoop/../hcatalog does not exist! HCatalog jobs will fail.
@@ -31,50 +37,48 @@ Please set $HCAT_HOME to the root of your HCatalog installation.
 Warning: /home/hadoop/sqoop/../accumulo does not exist! Accumulo imports will fail.
 Please set $ACCUMULO_HOME to the root of your Accumulo installation.
 Warning: /home/hadoop/sqoop/../zookeeper does not exist! Accumulo imports will fail.
-Please set $ZOOKEEPER_HOME to the root of your Zookeeper installation.
-2023-09-25 00:02:12,800 INFO sqoop.Sqoop: Running Sqoop version: 1.4.7
-Enter password:
-2023-09-25 00:02:19,698 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
-2023-09-25 00:02:19,698 INFO tool.CodeGenTool: Beginning code generation
+Please set $ZOOKEEPER_HOME to the root of your Zookeeper installation.2023-09-26 17:37:31,633 INFO sqoop.Sqoop: Running Sqoop version: 1.4.7Enter password:
+2023-09-26 17:37:39,246 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+2023-09-26 17:37:39,246 INFO tool.CodeGenTool: Beginning code generation
 Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-2023-09-25 00:02:20,047 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `globalterrorism` AS t LIMIT 1
-2023-09-25 00:02:20,078 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `globalterrorism` AS t LIMIT 1
-2023-09-25 00:02:20,085 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /home/hadoop/hadoop
-Note: /tmp/sqoop-hadoop/compile/966e7f5d480a201941cfb264066d8f37/globalterrorism.java uses or overrides a deprecated API.
+2023-09-26 17:37:39,666 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `terrorism1` AS t LIMIT 1
+2023-09-26 17:37:39,704 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `terrorism1` AS t LIMIT 1
+2023-09-26 17:37:39,712 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /home/hadoop/hadoop
+Note: /tmp/sqoop-hadoop/compile/94883bfff2a7cad87be34100db6691fd/terrorism1.java uses or overrides a deprecated API.
 Note: Recompile with -Xlint:deprecation for details.
-2023-09-25 00:02:20,870 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-hadoop/compile/966e7f5d480a201941cfb264066d8f37/globalterrorism.jar
-2023-09-25 00:02:20,883 WARN manager.MySQLManager: It looks like you are importing from mysql.
-2023-09-25 00:02:20,883 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
-2023-09-25 00:02:20,883 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
-2023-09-25 00:02:20,883 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
-2023-09-25 00:02:20,889 INFO mapreduce.ImportJobBase: Beginning import of globalterrorism
-2023-09-25 00:02:20,889 INFO Configuration.deprecation: mapred.job.tracker is deprecated. Instead, use mapreduce.jobtracker.address
-2023-09-25 00:02:21,090 INFO Configuration.deprecation: mapred.jar is deprecated. Instead, use mapreduce.job.jar
-2023-09-25 00:02:21,409 INFO Configuration.deprecation: mapred.map.tasks is deprecated. Instead, use mapreduce.job.maps
-2023-09-25 00:02:21,468 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at /0.0.0.0:8032
-2023-09-25 00:02:21,894 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/hadoop/.staging/job_1695578448473_0001
-2023-09-25 00:02:28,061 INFO db.DBInputFormat: Using read commited transaction isolation
-2023-09-25 00:02:28,513 INFO mapreduce.JobSubmitter: number of splits:1
-2023-09-25 00:02:28,734 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1695578448473_0001
-2023-09-25 00:02:28,734 INFO mapreduce.JobSubmitter: Executing with tokens: []
-2023-09-25 00:02:28,913 INFO conf.Configuration: resource-types.xml not found
-2023-09-25 00:02:28,913 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
-2023-09-25 00:02:29,825 INFO impl.YarnClientImpl: Submitted application application_1695578448473_0001
-2023-09-25 00:02:29,858 INFO mapreduce.Job: The url to track the job: http://LAPTOP-QSUG0G63.:8088/proxy/application_1695578448473_0001/
-2023-09-25 00:02:29,859 INFO mapreduce.Job: Running job: job_1695578448473_0001
-2023-09-25 00:02:39,983 INFO mapreduce.Job: Job job_1695578448473_0001 running in uber mode : false
-2023-09-25 00:02:39,985 INFO mapreduce.Job:  map 0% reduce 0%
-2023-09-25 00:02:45,031 INFO mapreduce.Job:  map 100% reduce 0%
-2023-09-25 00:02:46,042 INFO mapreduce.Job: Job job_1695578448473_0001 completed successfully
-2023-09-25 00:02:46,141 INFO mapreduce.Job: Counters: 33
+2023-09-26 17:37:40,724 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-hadoop/compile/94883bfff2a7cad87be34100db6691fd/terrorism1.jar
+2023-09-26 17:37:40,741 WARN manager.MySQLManager: It looks like you are importing from mysql.
+2023-09-26 17:37:40,741 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+2023-09-26 17:37:40,741 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+2023-09-26 17:37:40,741 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+2023-09-26 17:37:40,751 INFO mapreduce.ImportJobBase: Beginning import of terrorism1
+2023-09-26 17:37:40,752 INFO Configuration.deprecation: mapred.job.tracker is deprecated. Instead, use mapreduce.jobtracker.address
+2023-09-26 17:37:41,037 INFO Configuration.deprecation: mapred.jar is deprecated. Instead, use mapreduce.job.jar
+2023-09-26 17:37:41,538 INFO Configuration.deprecation: mapred.map.tasks is deprecated. Instead, use mapreduce.job.maps
+2023-09-26 17:37:41,657 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at /0.0.0.0:8032
+2023-09-26 17:37:42,410 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/hadoop/.staging/job_1695728618051_0001
+2023-09-26 17:37:52,104 INFO db.DBInputFormat: Using read commited transaction isolation
+2023-09-26 17:37:52,957 INFO mapreduce.JobSubmitter: number of splits:1
+2023-09-26 17:37:53,285 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1695728618051_0001
+2023-09-26 17:37:53,285 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2023-09-26 17:37:53,539 INFO conf.Configuration: resource-types.xml not found
+2023-09-26 17:37:53,539 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2023-09-26 17:37:54,467 INFO impl.YarnClientImpl: Submitted application application_1695728618051_0001
+2023-09-26 17:37:54,521 INFO mapreduce.Job: The url to track the job: http://LAPTOP-QSUG0G63.:8088/proxy/application_1695728618051_0001/
+2023-09-26 17:37:54,522 INFO mapreduce.Job: Running job: job_1695728618051_0001
+2023-09-26 17:38:07,742 INFO mapreduce.Job: Job job_1695728618051_0001 running in uber mode : false
+2023-09-26 17:38:07,744 INFO mapreduce.Job:  map 0% reduce 0%
+2023-09-26 17:38:14,833 INFO mapreduce.Job:  map 100% reduce 0%
+2023-09-26 17:38:14,841 INFO mapreduce.Job: Job job_1695728618051_0001 completed successfully
+2023-09-26 17:38:14,984 INFO mapreduce.Job: Counters: 33
         File System Counters
                 FILE: Number of bytes read=0
-                FILE: Number of bytes written=285555
+                FILE: Number of bytes written=285559
                 FILE: Number of read operations=0
                 FILE: Number of large read operations=0
                 FILE: Number of write operations=0
                 HDFS: Number of bytes read=87
-                HDFS: Number of bytes written=159115
+                HDFS: Number of bytes written=210991
                 HDFS: Number of read operations=6
                 HDFS: Number of large read operations=0
                 HDFS: Number of write operations=2
@@ -82,11 +86,11 @@ Note: Recompile with -Xlint:deprecation for details.
         Job Counters
                 Launched map tasks=1
                 Other local map tasks=1
-                Total time spent by all maps in occupied slots (ms)=2992
+                Total time spent by all maps in occupied slots (ms)=4371
                 Total time spent by all reduces in occupied slots (ms)=0
-                Total time spent by all map tasks (ms)=2992
-                Total vcore-milliseconds taken by all map tasks=2992
-                Total megabyte-milliseconds taken by all map tasks=3063808
+                Total time spent by all map tasks (ms)=4371
+                Total vcore-milliseconds taken by all map tasks=4371
+                Total megabyte-milliseconds taken by all map tasks=4475904
         Map-Reduce Framework
                 Map input records=2276
                 Map output records=2276
@@ -94,27 +98,38 @@ Note: Recompile with -Xlint:deprecation for details.
                 Spilled Records=0
                 Failed Shuffles=0
                 Merged Map outputs=0
-                GC time elapsed (ms)=97
-                CPU time spent (ms)=1870
-                Physical memory (bytes) snapshot=263520256
-                Virtual memory (bytes) snapshot=2577997824
-                Total committed heap usage (bytes)=238551040
-                Peak Map Physical memory (bytes)=263520256
-                Peak Map Virtual memory (bytes)=2577997824
+                GC time elapsed (ms)=164
+                CPU time spent (ms)=2610
+                Physical memory (bytes) snapshot=260288512
+                Virtual memory (bytes) snapshot=2577932288
+                Total committed heap usage (bytes)=171442176
+                Peak Map Physical memory (bytes)=260288512
+                Peak Map Virtual memory (bytes)=2577932288
         File Input Format Counters
                 Bytes Read=0
         File Output Format Counters
-                Bytes Written=159115
-2023-09-25 00:02:46,146 INFO mapreduce.ImportJobBase: Transferred 155.3857 KB in 24.7299 seconds (6.2833 KB/sec)
-2023-09-25 00:02:46,148 INFO mapreduce.ImportJobBase: Retrieved 2276 records.
-hadoop@LAPTOP-QSUG0G63:~$ hadoop fs -ls /capstone/
+                Bytes Written=210991
+2023-09-26 17:38:14,990 INFO mapreduce.ImportJobBase: Transferred 206.0459 KB in 33.4362 seconds (6.1624 KB/sec)
+2023-09-26 17:38:14,993 INFO mapreduce.ImportJobBase: Retrieved 2276 records.
+hadoop@LAPTOP-QSUG0G63:~$ hadoop fs -ls /capstone1/
 Found 2 items
--rw-r--r--   1 hadoop supergroup          0 2023-09-25 00:02 /capstone/_SUCCESS
--rw-r--r--   1 hadoop supergroup     159115 2023-09-25 00:02 /capstone/part-m-00000
+-rw-r--r--   1 hadoop supergroup          0 2023-09-26 17:38 /capstone1/_SUCCESS
+-rw-r--r--   1 hadoop supergroup     210991 2023-09-26 17:38 /capstone1/part-m-00000
 hadoop@LAPTOP-QSUG0G63:~$ hadoop fs -cat /capstone/part-m-00000 | head -5
-2147483647,1970,7,2,Dominican Republic,Central America & Caribbean,Assassination,0,1
-2147483647,1970,0,0,Mexico,North America,Hostage Taking (Kidnapping),0,0
-2147483647,1970,1,0,Philippines,Southeast Asia,Assassination,0,1
-2147483647,1970,1,0,Greece,Western Europe,Bombing/Explosion,0,0
-2147483647,1970,1,0,Japan,East Asia,Facility/Infrastructure Attack,0,0
+hadoop@LAPTOP-QSUG0G63:~$ hadoop fs -cat /capstone1/part-m-00000 | head -5
+Assassination,Dominican Republic,1.97E+11,2,7,1970,1,0,Central America & Caribbean,Julio Guzman
+Hostage Taking (Kidnapping),Mexico,1.97E+11,0,0,1970,0,0,North America,"Nadine Chaval
+Assassination,Philippines,1.97001E+11,0,1,1970,1,0,Southeast Asia,Employee
+Bombing/Explosion,Greece,1.97001E+11,0,1,1970,0,0,Western Europe,U.S. Embassy
+Facility/Infrastructure Attack,Japan,1.97001E+11,0,1,1970,0,0,East Asia,U.S. Consulate
 cat: Unable to write to output stream.
+hadoop@LAPTOP-QSUG0G63:~$ ls
+apache-hive-3.1.2-bin.tar.gz    hadoop               metastore_db                        spark-3.4.0-bin-hadoop3.tgz
+apache-hive-3.1.2-bin.tar.gz.1  hadoop-3.3.2.tar.gz  mysql-connector-java-8.0.27         sqoop
+derby.log                       hadoopdata           mysql-connector-java-8.0.27.tar.gz  sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+globalterrorism.java            hive                 spark                               terrorism1.java
+hadoop@LAPTOP-QSUG0G63:~$ hadoop fs -ls /
+Found 3 items
+drwxr-xr-x   - hadoop supergroup          0 2023-09-26 18:03 /capstone1
+drwxrwxr-x   - hadoop supergroup          0 2023-09-25 00:02 /tmp
+drwxr-xr-x   - hadoop supergroup          0 2023-09-23 17:06 /user
