@@ -1,39 +1,58 @@
-
-hive> create database global;
-OK
-Time taken: 0.83 seconds
 hive> show databases;
 OK
 default
 global
 naveeeeveenla
-Time taken: 0.041 seconds, Fetched: 3 row(s)
 hive> use global;
 OK
-Time taken: 0.035 seconds
-hive> create table terrorism (eventid BIGINT,iyear INT,iday INT,country_txt STRING,region_txt STRING,nkill INT,nwound INT)
+Time taken: 0.046 seconds
+hive> create table terrorism1 (eventid BIGINT,iyear INT,imonth INT,iday INT,country_txt STRING,region_txt STRING,attacktype1_txt STRING,target1 STRING,nkill INT,nwound INT)
     > ROW FORMAT DELIMITED
     > FIELDS TERMINATED BY ','
     > STORED AS TEXTFILE;
 OK
-Time taken: 0.615 seconds
-hive> LOAD DATA INPATH '/capstone/part-m-00000' into terrorism;
-FAILED: ParseException line 1:47 missing TABLE at 'terrorism' near '<EOF>'
-hive> LOAD DATA INPATH '/capstone/part-m-00000' into table terrorism;
-Loading data to table global.terrorism
+Time taken: 0.846 seconds
+hive> LOAD DATA INPATH '/capstone1/part-m-00000' into table terrorism1;
+Loading data to table global.terrorism1
 OK
-Time taken: 1.179 seconds
-hive> select * from terrorism limit 10;
+Time taken: 1.359 seconds
+hive> describe terrorism1;
 OK
-2147483647      1970    7       2       Dominican Republic      NULL    NULL
-2147483647      1970    0       0       Mexico  NULL    NULL
-2147483647      1970    1       0       Philippines     NULL    NULL
-2147483647      1970    1       0       Greece  NULL    NULL
-2147483647      1970    1       0       Japan   NULL    NULL
-2147483647      1970    1       1       United States   NULL    NULL
-2147483647      1970    1       2       Uruguay NULL    NULL
-2147483647      1970    1       2       United States   NULL    NULL
-2147483647      1970    1       2       United States   NULL    NULL
-2147483647      1970    8       3       United States   NULL    NULL
-Time taken: 3.834 seconds, Fetched: 10 row(s)
-hive>
+eventid                 bigint
+iyear                   int
+imonth                  int
+iday                    int
+country_txt             string
+region_txt              string
+attacktype1_txt         string
+target1                 string
+nkill                   int
+nwound                  int
+Time taken: 0.133 seconds, Fetched: 10 row(s)
+hive (global)>  LOAD DATA INPATH '/capstone2/part-m-00000' into table terrorism1;
+Loading data to table global.terrorism1
+OK
+Time taken: 0.506 seconds
+hive> select * from terrorism1 limit 20;
+OK
+2147483647    1970    7       2       Dominican Republic      Central America & Caribbean     Assassination   Julio Guzman    1       0
+2147483647    1970    0       0       Mexico  North America   Hostage Taking (Kidnapping)     "Nadine Chaval  0       0
+2147483647    1970    1       0       Philippines     Southeast Asia  Assassination   Employee        1       0
+2147483647    1970    1       0       Greece  Western Europe  Bombing/Explosion       U.S. Embassy    0       0
+2147483647    1970    1       0       Japan   East Asia       Facility/Infrastructure Attack  U.S. Consulate  0       0
+2147483647    1970    1       1       United States   North America   Armed Assault   Cairo Police Headquarters       0       0
+2147483647    1970    1       2       Uruguay South America   Assassination   Juan Maria de Lucah/Chief of Directorate of info.       0       0
+2147483647    1970    1       2       United States   North America   Bombing/Explosion       Edes Substation 0       0
+2147483647    1970    1       2       United States   North America   Facility/Infrastructure Attack  "R.O.T.C. offices at University of Wisconsin   0
+2147483647    1970    8       3       United States   North America   Facility/Infrastructure Attack  Selective Service Headquarters in Madison Wisconsi      0       0
+2147483647    1970    1       1       United States   North America   Bombing/Explosion       Badger Army ammo depot. 0       0
+2147483647    1970    1       6       United States   North America   Facility/Infrastructure Attack  "Army Recruiting Station        0       0
+2147483647    1970    1       8       Italy   Western Europe  Hijacking       Flight 802 Boeing 707   0       0
+2147483647    1970    12      9       United States   North America   Facility/Infrastructure Attack  Packard Properties building of Detroit Michigan0
+2147483647    1970    1       9       United States   North America   Facility/Infrastructure Attack  Baker's Store   0       0
+2147483647    1970    5       10      East Germany (GDR)      Eastern Europe  Bombing/Explosion       Jurists Ball (Palais au Frankturm)      0      0
+2147483647    1970    5       11      Ethiopia        Sub-Saharan Africa      Unknown Soldier 1       0
+2147483647    1970    5       12      United States   North America   Bombing/Explosion       James Madison High School       0       0
+2147483647    1970    5       12      United States   North America   Bombing/Explosion       General Electric factory in Rio Grande Puerto Rico     0
+2147483647    1970    5       13      United States   North America   Facility/Infrastructure Attack  "Fuson's Department Store       0       0
+Time taken: 1.789 seconds, Fetched: 20 row(s)
