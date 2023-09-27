@@ -1,0 +1,370 @@
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  '_/
+   /__ / .__/\_,_/_/ /_/\_\   version 3.4.0
+      /_/
+
+Using Python version 3.10.12 (main, Jun 11 2023 05:26:28)
+Spark context Web UI available at http://172.24.139.177:4040
+Spark context available as 'sc' (master = local[*], app id = local-1695800093307).
+SparkSession available as 'spark'.
+>>> spark.sql("show databases").show()
++-------------+
+|    namespace|
++-------------+
+|      default|
+|       global|
+|naveeeeveenla|
++-------------+
+
+>>> spark.sql("select count(*) from global.terrorism1").show()
++--------+
+|count(1)|
++--------+
+|    2276|
++--------+
+
+>>> spark.sql("select country_txt from global.terrorism1").show()
++------------------+
+|       country_txt|
++------------------+
+|Dominican Republic|
+|            Mexico|
+|       Philippines|
+|            Greece|
+|             Japan|
+|     United States|
+|           Uruguay|
+|     United States|
+|     United States|
+|     United States|
+|     United States|
+|     United States|
+|             Italy|
+|     United States|
+|     United States|
+|East Germany (GDR)|
+|          Ethiopia|
+|     United States|
+|     United States|
+|     United States|
++------------------+
+only showing top 20 rows
+
+>>> spark.sql("select count(country_txt) as num_attacks from global.terrorism1 group by country_txt order by num_attacks DESC").show()
++-----------+
+|num_attacks|
++-----------+
+|        182|
+|        160|
+|        158|
+|        123|
+|        117|
+|        115|
+|        107|
+|         96|
+|         90|
+|         85|
+|         74|
+|         71|
+|         64|
+|         60|
+|         51|
+|         50|
+|         31|
+|         31|
+|         30|
+|         29|
++-----------+
+only showing top 20 rows
+
+NUMBER OF ATTACKS IN EACH COUNTRY
+
+>>> spark.sql("SELECT country_txt, COUNT(country_txt) AS num_attacks FROM global.terrorism1 GROUP BY country_txt ORDER BY num_attacks DESC").show()
++--------------+-----------+
+|   country_txt|num_attacks|
++--------------+-----------+
+|          Iraq|        182|
+|      Colombia|        160|
+|United Kingdom|        158|
+|          Peru|        123|
+| United States|        117|
+|   Afghanistan|        115|
+|         India|        107|
+|   El Salvador|         96|
+|      Pakistan|         90|
+|        France|         85|
+|   Philippines|         74|
+|        Turkey|         71|
+|         Spain|         64|
+|         Italy|         60|
+|       Algeria|         51|
+|     Guatemala|         50|
+|        Russia|         31|
+|      Thailand|         31|
+|     Sri Lanka|         30|
+|       Lebanon|         29|
++--------------+-----------+
+only showing top 20 rows
+
+
+NUMBER  OF ATTACKS OVER TIME*:
+
+>>> spark.sql("SELECT  iyear, COUNT(iyear) AS num_attacks FROM global.terrorism1 GROUP BY iyear ORDER BY num_attacks DESC").show()
++-----+-----------+
+|iyear|num_attacks|
++-----+-----------+
+| 2017|         72|
+| 2005|         60|
+| 2009|         54|
+| 1975|         51|
+| 2003|         51|
+| 1974|         51|
+| 1973|         51|
+| 1971|         51|
+| 1972|         51|
+| 2013|         50|
+| 2016|         50|
+| 1985|         50|
+| 1980|         50|
+| 2014|         50|
+| 2001|         50|
+| 1979|         50|
+| 2004|         50|
+| 1992|         50|
+| 1982|         50|
+| 1983|         50|
++-----+-----------+
+only showing top 20 rows
+
+
+*MOST AFFECTED COUNTRIES*:
+
+>>> spark.sql("SELECT  country_txt, COUNT(*) AS num_attacks FROM global.terrorism1 GROUP BY country_txt ORDER BY num_attacks DESC").show()
++--------------+-----------+
+|   country_txt|num_attacks|
++--------------+-----------+
+|          Iraq|        182|
+|      Colombia|        160|
+|United Kingdom|        158|
+|          Peru|        123|
+| United States|        117|
+|   Afghanistan|        115|
+|         India|        107|
+|   El Salvador|         96|
+|      Pakistan|         90|
+|        France|         85|
+|   Philippines|         74|
+|        Turkey|         71|
+|         Spain|         64|
+|         Italy|         60|
+|       Algeria|         51|
+|     Guatemala|         50|
+|        Russia|         31|
+|      Thailand|         31|
+|     Sri Lanka|         30|
+|       Lebanon|         29|
++--------------+-----------+
+only showing top 20 rows
+
+*TYPES OF ATTACKS*:
+
+>>> spark.sql("SELECT attacktype1_txt, COUNT(*) AS num_attacks FROM global.terrorism1 GROUP BY attacktype1_txt ORDER BY num_attacks ").show()
++--------------------+-----------+
+|     attacktype1_txt|num_attacks|
++--------------------+-----------+
+|           Hijacking|          9|
+|     Unarmed Assault|         10|
+|Hostage Taking (B...|         13|
+|             Unknown|         69|
+|Hostage Taking (K...|        122|
+|Facility/Infrastr...|        185|
+|       Assassination|        271|
+|       Armed Assault|        460|
+|   Bombing/Explosion|       1137|
++--------------------+-----------+
+
+*TARGET PLACES*:
+
+>>> spark.sql("SELECT target1, COUNT(*) AS num_attacks FROM global.terrorism1 GROUP BY target1 ORDER BY num_attacks").show()
++--------------------+-----------+
+|             target1|num_attacks|
++--------------------+-----------+
+|         U.S. School|          1|
+|    A security guard|          1|
+|           Diplomats|          1|
+|       Police Office|          1|
+|            pipeline|          1|
+|"Ex. Secy Gen of ...|          1|
+|     Nashon Junction|          1|
+|Bangkok Metropoli...|          1|
+|10 civilians (all...|          1|
+|         Army Armory|          1|
+|    Bengali settlers|          1|
+|       Guardo Vieira|          1|
+|Gelilot depot in ...|          1|
+|Mayoral candidate...|          1|
+|Bus traveling fro...|          1|
+|Savak Buildings (...|          1|
+|The assailants at...|          1|
+|"US military vehi...|          1|
+|"Palos Verdes Pen...|          1|
+|The offices of th...|          1|
++--------------------+-----------+
+only showing top 20 rows
+
+
+>>> spark.sql("SELECT region_txt ,COUNT(*) AS num_attacks FROM global.terrorism1  GROUP BY region_txt ORDER BY num_attacks").show()
++--------------------+-----------+
+|          region_txt|num_attacks|
++--------------------+-----------+
+|Australasia & Oce...|          6|
+|           East Asia|          7|
+|        Central Asia|          8|
+|      Eastern Europe|         59|
+|      Southeast Asia|        123|
+|       North America|        132|
+|  Sub-Saharan Africa|        148|
+|Central America &...|        184|
+|       South America|        350|
+|          South Asia|        363|
+|Middle East & Nor...|        447|
+|      Western Europe|        449|
++--------------------+-----------+
+
+*CASUALTIES ANALYSIS*:
+
+>>> spark.sql("SELECT nkill, COUNT(*) FROM global.terrorism1 GROUP BY nkill").show()
++-----+--------+
+|nkill|count(1)|
++-----+--------+
+|   31|       4|
+|   34|       1|
+|   28|       2|
+|   26|       4|
+|   27|       1|
+|   44|       1|
+|   12|      10|
+|   22|       7|
+| 1300|       1|
+|  132|       1|
+|    1|     287|
+|   13|      14|
+|   16|       5|
+|    6|      22|
+|    3|      57|
+|   20|       5|
+|   40|       3|
+|   57|       1|
+|   48|       2|
+|    5|      28|
++-----+--------+
+only showing top 20 rows
+
+>>> spark.sql("SELECT nwound, COUNT(*) FROM global.terrorism1 GROUP BY nwound").show()
++------+--------+
+|nwound|count(1)|
++------+--------+
+|    31|       1|
+|    65|       2|
+|    78|       1|
+|    34|       1|
+|    81|       1|
+|    28|       1|
+|    27|       1|
+|    12|       8|
+|    22|       2|
+|    47|       2|
+|     1|     227|
+|    52|       1|
+|    13|       6|
+|     6|      29|
+|    16|       4|
+|     3|      70|
+|    40|       6|
+|    20|       7|
+|   120|       1|
+|    54|       1|
++------+--------+
+only showing top 20 rows
+
+
+*TOTAL KILLED AND WOUNDED*:
+
+>>> spark.sql("SELECT iyear,SUM(nkill) AS total_killed, SUM(nwound) AS total_wounded FROM global.terrorism1 GROUP BY iyear ORDER BY iyear").show()
++-----+------------+-------------+
+|iyear|total_killed|total_wounded|
++-----+------------+-------------+
+| 1970|           3|            5|
+| 1971|          82|            5|
+| 1972|         621|           68|
+| 1973|          37|           35|
+| 1974|           5|           25|
+| 1975|         161|           21|
+| 1976|         466|           56|
+| 1977|           4|           14|
+| 1978|          89|           12|
+| 1979|         323|          137|
+| 1980|          37|           39|
+| 1981|         772|           25|
+| 1982|         164|           25|
+| 1983|          92|           46|
+| 1984|        1463|           12|
+| 1985|         185|           51|
+| 1986|          84|           48|
+| 1987|           0|            0|
+| 1988|          77|           67|
+| 1989|          67|           83|
++-----+------------+-------------+
+only showing top 20 rows
+
+*IDETIFY REGIONS AND COUNTRIES WITH THE HIGHEST CONCENTRATION OF ATTACKS
+
+>>> spark.sql("SELECT country_txt, region_txt, COUNT(*) AS num_attacks FROM global.terrorism1 WHERE country_txt IS NOT NULL AND region_txt IS NOT NULL GROUP BY country_txt, region_txt ORDER BY num_attacks DESC").show()
++--------------+--------------------+-----------+
+|   country_txt|          region_txt|num_attacks|
++--------------+--------------------+-----------+
+|          Iraq|Middle East & Nor...|        182|
+|      Colombia|       South America|        160|
+|United Kingdom|      Western Europe|        158|
+|          Peru|       South America|        123|
+| United States|       North America|        117|
+|   Afghanistan|          South Asia|        115|
+|         India|          South Asia|        107|
+|   El Salvador|Central America &...|         96|
+|      Pakistan|          South Asia|         90|
+|        France|      Western Europe|         85|
+|   Philippines|      Southeast Asia|         74|
+|        Turkey|Middle East & Nor...|         71|
+|         Spain|      Western Europe|         64|
+|         Italy|      Western Europe|         60|
+|       Algeria|Middle East & Nor...|         51|
+|     Guatemala|Central America &...|         50|
+|      Thailand|      Southeast Asia|         31|
+|        Russia|      Eastern Europe|         31|
+|     Sri Lanka|          South Asia|         30|
+|       Lebanon|Middle East & Nor...|         29|
++--------------+--------------------+-----------+
+only showing top 20 rows
+
+*ATTACKS TRENDS BY MONTH
+>>> spark.sql("SELECT imonth, COUNT(*) AS num_attacks FROM global.terrorism1 WHERE imonth IS NOT NULL GROUP BY imonth ORDER BY num_attacks").show()
++------+-----------+
+|imonth|num_attacks|
++------+-----------+
+|     0|          1|
+|     8|         59|
+|    12|         76|
+|    10|        112|
+|     7|        115|
+|    11|        140|
+|     5|        141|
+|     6|        150|
+|     9|        178|
+|     4|        258|
+|     1|        304|
+|     3|        310|
+|     2|        432|
++------+-----------+
+
